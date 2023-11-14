@@ -30,7 +30,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Prefil',
+      title: 'BTech Shayak',
       theme: ThemeData(
         useMaterial3: true,
       ),
