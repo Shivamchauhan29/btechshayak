@@ -1,8 +1,10 @@
 import 'package:btechshayak/router/app_checker.dart';
 import 'package:btechshayak/screens/dashboard.dart';
+import 'package:btechshayak/screens/forgetpassword.dart';
 import 'package:btechshayak/screens/login.dart';
 import 'package:btechshayak/screens/signup.dart';
 import 'package:btechshayak/screens/subjectdetails.dart';
+import 'package:btechshayak/screens/videoplayer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -34,10 +36,22 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           builder: (context, state) => const Login(),
         ),
         GoRoute(
+          path: '/forgetpassword',
+          name: 'forgetpassword',
+          builder: (context, state) => const ForgetPassword(),
+        ),
+        GoRoute(
           path: '/subjectdetails',
           name: 'subjectdetails',
           builder: (context, state) => SubjectDetails(
             subjectData: state.extra,
+          ),
+        ),
+        GoRoute(
+          path: '/videoplayer',
+          name: 'videoplayer',
+          builder: (context, state) => VideoPlayer(
+            url: state.uri.queryParameters['url'],
           ),
         ),
       ]);
