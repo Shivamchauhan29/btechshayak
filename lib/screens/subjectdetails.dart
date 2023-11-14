@@ -18,30 +18,33 @@ class _SubjectDetailsState extends State<SubjectDetails> {
       appBar: AppBar(
         title: const Text('Start Learning Here'),
       ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 8.0,
-          mainAxisSpacing: 8.0,
-        ),
-        itemCount: urls.length,
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              context.pushNamed('videoplayer', queryParameters: {
-                'url': urls[index],
-              });
-            },
-            child: Card(
-              child: Center(
-                child: Text(
-                  urls[index],
-                  style: const TextStyle(fontSize: 10.0),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GridView.builder(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: MediaQuery.of(context).size.width < 600 ? 2 : 4,
+            crossAxisSpacing: 8.0,
+            mainAxisSpacing: 8.0,
+          ),
+          itemCount: urls.length,
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              onTap: () {
+                context.pushNamed('videoplayer', queryParameters: {
+                  'url': urls[index],
+                });
+              },
+              child: Card(
+                child: Center(
+                  child: Text(
+                    urls[index],
+                    style: const TextStyle(fontSize: 10.0),
+                  ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

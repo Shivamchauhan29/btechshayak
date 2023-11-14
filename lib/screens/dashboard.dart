@@ -38,7 +38,7 @@ class _DashBoardState extends ConsumerState<DashBoard> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dashboard'),
+        title: const Text('BTech Shayak'),
         actions: [
           IconButton(
             onPressed: () {
@@ -59,7 +59,8 @@ class _DashBoardState extends ConsumerState<DashBoard> {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GridView.count(
-                      crossAxisCount: 2,
+                      crossAxisCount:
+                          MediaQuery.of(context).size.width < 600 ? 2 : 4,
                       childAspectRatio: 1.3,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
