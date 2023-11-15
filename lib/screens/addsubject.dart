@@ -93,7 +93,7 @@ class _AddSubjectState extends State<AddSubject> {
               height: 10,
             ),
             Column(
-              children: List.generate(controllers.length, (index) {
+              children: List.generate(urlController.length, (index) {
                 return Column(children: [
                   TextFormField(
                     // controller: urlController[index],
