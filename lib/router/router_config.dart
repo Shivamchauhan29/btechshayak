@@ -1,4 +1,5 @@
 import 'package:btechshayak/router/app_checker.dart';
+import 'package:btechshayak/screens/addsubject.dart';
 import 'package:btechshayak/screens/dashboard.dart';
 import 'package:btechshayak/screens/forgetpassword.dart';
 import 'package:btechshayak/screens/login.dart';
@@ -29,6 +30,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           path: '/signup',
           name: 'signup',
           builder: (context, state) => const SignUp(),
+        ),
+        GoRoute(
+          path: '/addsubject',
+          name: 'addsubject',
+          builder: (context, state) => const AddSubject(),
         ),
         GoRoute(
           path: '/login',

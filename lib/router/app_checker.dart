@@ -22,7 +22,6 @@ class AuthChecker extends ConsumerWidget {
 
     return authState.when(
       data: (data) {
-        print('Auth Data: ${data != null}');
         if (data != null) {
           return const DashBoard();
         }
