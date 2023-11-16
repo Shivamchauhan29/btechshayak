@@ -103,8 +103,22 @@ class _AddSubjectState extends State<AddSubject> {
                       labelText: 'Freight',
                     ),
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                 ]);
               }),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  urlController.add(TextEditingController());
+                });
+              },
+              child: const Text('Add Url'),
             ),
           ],
         )),
