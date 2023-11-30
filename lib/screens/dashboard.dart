@@ -48,6 +48,42 @@ class _DashBoardState extends ConsumerState<DashBoard> {
           ),
         ],
       ),
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'BTech Shayak',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              title: const Text('Dashboard'),
+              onTap: () {
+                context.go('/');
+              },
+            ),
+            ListTile(
+              title: const Text('Add Subject'),
+              onTap: () {
+                context.push('/addsubject');
+              },
+            ),
+            ListTile(
+              title: const Text('About'),
+              onTap: () {
+                context.go('about');
+              },
+            ),
+          ],
+        ),
+      ),
       body: path[0] == ''
           ? const Center(child: CircularProgressIndicator())
           : StreamBuilder<dynamic>(
