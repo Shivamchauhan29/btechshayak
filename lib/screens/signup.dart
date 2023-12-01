@@ -100,7 +100,7 @@ class _SignUpState extends ConsumerState<SignUp> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(40.0)),
                   child: Image(
-                    image: AssetImage('assets/signup.png'),
+                    image: AssetImage('assets/logo.png'),
                   ),
                 ),
               ),

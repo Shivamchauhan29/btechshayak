@@ -1,4 +1,5 @@
 import 'package:btechshayak/screens/chatpage.dart';
+import 'package:btechshayak/screens/dashboard.dart';
 import 'package:btechshayak/screens/widgets.dart';
 import 'package:btechshayak/service/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,8 @@ class GroupTile extends ConsumerStatefulWidget {
 class _GroupTileState extends ConsumerState<GroupTile> {
   @override
   Widget build(BuildContext context) {
+    final studentName = ref.watch(studentNameProvider);
+
     return GestureDetector(
       onTap: () {
         nextScreen(
@@ -48,7 +51,7 @@ class _GroupTileState extends ConsumerState<GroupTile> {
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           subtitle: Text(
-            "Join the conversation as ${ref.read(authProvider).currentUser!.displayName ?? ''}",
+            "Join the conversation as $studentName",
             style: const TextStyle(fontSize: 13),
           ),
         ),
