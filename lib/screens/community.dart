@@ -1,167 +1,344 @@
-import 'package:btechshayak/screens/messagetile.dart';
+import 'package:btechshayak/screens/group_tile.dart';
+import 'package:btechshayak/screens/widgets.dart';
+import 'package:btechshayak/service/helper_function.dart';
 import 'package:btechshayak/services/database_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Community extends StatefulWidget {
-  final String groupId;
-  final String groupName;
-  final String userName;
-  const Community(
-      {Key? key,
-      required this.userName,
-      required this.groupId,
-      required this.groupName})
-      : super(key: key);
+class HomePage extends ConsumerStatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<Community> createState() => _CommunityState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _CommunityState extends State<Community> {
-  Stream<QuerySnapshot>? chats;
-  TextEditingController messaagesController = TextEditingController();
-  String admin = "";
+class _HomePageState extends ConsumerState<HomePage> {
+  String userName = "";
+  String email = "";
+  Stream? groups;
+  bool _isLoading = false;
+  String groupName = "";
 
   @override
   void initState() {
     super.initState();
-    getChatandAdmin();
+    gettingUserData();
   }
 
-  getChatandAdmin() async {
-    var chatResult = await DataBaseService().getChats(widget.groupId);
-    if (chatResult != null) {
-      setState(() {
-        chats = chatResult;
-      });
-    }
+  // string manipulation
 
-    var adminResult = await DataBaseService().getGroupAdmin(widget.groupId);
-    if (adminResult != null) {
+  String getId(String res) {
+    return res.substring(0, res.indexOf("_"));
+  }
+
+  String getName(String res) {
+    return res.substring(res.indexOf("_") + 1);
+  }
+
+  gettingUserData() async {
+    await HelperFunction.getUserNameFromSF().then((value) {
       setState(() {
-        admin = adminResult;
+        userName = value!;
       });
-    }
+    });
+    await HelperFunction.getUserEmailFromSF().then((val) => {
+          setState(() {
+            email = val!;
+          })
+        });
+    //getting the list of snapshot in our stream
+    await DataBaseService(uid: FirebaseAuth.instance.currentUser!.uid)
+        .getUserGroups()
+        .then((snapshot) {
+      setState(() {
+        groups = snapshot;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         elevation: 0,
-        title: Text(widget.groupName),
-        backgroundColor: Theme.of(context).primaryColor,
         actions: [
           IconButton(
               onPressed: () {
-                // nextScreen(
-                //     context,
-                //     GroupInfo(
-                //       groupId: widget.groupId,
-                //       groupName: widget.groupName,
-                //       adminName: admin,
-                //     ));
+                // nextScreen(context, const SearchPage());
               },
-              icon: const Icon(Icons.info_outline))
+              icon: const Icon(
+                Icons.search,
+              ))
         ],
+        centerTitle: true,
+        backgroundColor: Theme.of(context).primaryColor,
+        title: const Text(
+          "Groups",
+          style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
+        ),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            flex: 9,
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.9,
-              child: chatMessages(),
+      drawer: Drawer(
+        child: ListView(
+          padding: const EdgeInsets.symmetric(vertical: 50),
+          children: <Widget>[
+            Icon(
+              Icons.account_circle,
+              size: 150,
+              color: Colors.grey[700],
             ),
-          ),
-          Expanded(
-            flex: 2,
-            child: Container(
-              alignment: Alignment.bottomCenter,
-              width: MediaQuery.of(context).size.width,
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-                width: MediaQuery.of(context).size.width,
-                color: Colors.grey[700],
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: TextFormField(
-                      controller: messaagesController,
-                      style: const TextStyle(color: Colors.white),
-                      decoration: const InputDecoration(
-                        hintText: "Let's chat!!!",
-                        hintStyle: TextStyle(color: Colors.white, fontSize: 16),
-                        border: InputBorder.none,
-                      ),
-                    )),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        sendMessage();
-                      },
-                      child: Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor,
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        child: const Center(
-                            child: Icon(
-                          Icons.send_outlined,
-                          color: Colors.white,
-                        )),
-                      ),
-                    )
-                  ],
-                ),
+            const SizedBox(
+              height: 15,
+            ),
+            Text(
+              userName,
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            const Divider(
+              height: 2,
+            ),
+            ListTile(
+              onTap: () {},
+              selectedColor: Theme.of(context).primaryColor,
+              selected: true,
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+              leading: const Icon(Icons.group),
+              title: const Text(
+                "Groups",
+                style: TextStyle(color: Colors.black),
               ),
             ),
-          ),
-        ],
+            ListTile(
+              onTap: () {
+                // nextScreenReplace(
+                //     context,
+                //     ProfilePage(
+                //       userName: userName,
+                //       email: email,
+                //     ));
+              },
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+              leading: const Icon(Icons.person_pin),
+              title: const Text(
+                "Profile",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
+            // ListTile(
+            //   onTap: () async {
+            //     showDialog(
+            //         barrierDismissible: false,
+            //         context: context,
+            //         builder: (context) {
+            //           return AlertDialog(
+            //             title: const Text("Logout"),
+            //             content: const Text("Are you sure you wanna logout☹️"),
+            //             actions: [
+            //               IconButton(
+            //                 onPressed: () {
+            //                   Navigator.pop(context);
+            //                 },
+            //                 icon: const Icon(
+            //                   Icons.cancel,
+            //                   color: Colors.red,
+            //                 ),
+            //               ),
+            //               IconButton(
+            //                 onPressed: () async {
+            //                   await authService.signOut();
+            //                   Navigator.of(context).pushAndRemoveUntil(
+            //                       MaterialPageRoute(
+            //                           builder: (context) => const LoginPage()),
+            //                       (route) => false);
+            //                 },
+            //                 icon: const Icon(
+            //                   Icons.exit_to_app,
+            //                   color: Colors.green,
+            //                 ),
+            //               ),
+            //             ],
+            //           );
+            //         });
+            //   },
+            //   contentPadding:
+            //       const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+            //   leading: const Icon(Icons.exit_to_app),
+            //   title: const Text(
+            //     "Logout",
+            //     style: TextStyle(color: Colors.black),
+            //   ),
+            // ),
+          ],
+        ),
+      ),
+      body: groupList(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          popUpDialog(context);
+        },
+        elevation: 0,
+        backgroundColor: Theme.of(context).primaryColor,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 30,
+        ),
       ),
     );
   }
 
-  chatMessages() {
+  popUpDialog(BuildContext context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: ((context, setState) {
+            return AlertDialog(
+              title: const Text(
+                "Create a group",
+                textAlign: TextAlign.left,
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _isLoading == true
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        )
+                      : TextField(
+                          onChanged: (val) {
+                            setState(() {
+                              groupName = val;
+                            });
+                          },
+                          style: const TextStyle(color: Colors.black),
+                          decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Theme.of(context).primaryColor),
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(color: Colors.red),
+                                borderRadius: BorderRadius.circular(15),
+                              )),
+                        ),
+                ],
+              ),
+              actions: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  // style: ElevatedButton.styleFrom(
+                  //   Color: Theme.of(context).primaryColor,
+                  // ),
+                  child: const Text("CANCEL"),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (groupName != "") {
+                      setState(() {
+                        _isLoading = true;
+                      });
+                      DataBaseService(
+                              uid: FirebaseAuth.instance.currentUser!.uid)
+                          .createGroup(userName,
+                              FirebaseAuth.instance.currentUser!.uid, groupName)
+                          .whenComplete(() {
+                        setState(() {
+                          _isLoading = false;
+                        });
+                        Navigator.of(context).pop();
+                        showSnakbar(context, Colors.green,
+                            "Group created successfully.😍");
+                      });
+                    }
+                  },
+                  // style: ElevatedButton.styleFrom(
+                  //   primary: Theme.of(context).primaryColor,
+                  // ),
+                  child: const Text("CREATE"),
+                )
+              ],
+            );
+          }));
+        });
+  }
+
+  groupList() {
     return StreamBuilder(
+      stream: groups,
       builder: (context, AsyncSnapshot snapshot) {
-        return snapshot.hasData
-            ? ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: snapshot.data.docs.length,
+        // make some check
+        if (snapshot.hasData) {
+          if (snapshot.data['groups'] != null) {
+            if (snapshot.data['groups'].length != 0) {
+              return ListView.builder(
+                itemCount: snapshot.data['groups'].length,
                 itemBuilder: (context, index) {
-                  return MessageTile(
-                    message: snapshot.data.docs[index]['message'],
-                    sender: snapshot.data.docs[index]['sender'],
-                    sentByMe:
-                        widget.userName == snapshot.data.docs[index]['sender'],
-                  );
+                  int reveseIndex = snapshot.data['groups'].length - index - 1;
+                  return GroupTile(
+                      groupName: getName(snapshot.data['groups'][reveseIndex]),
+                      groupId: getId(snapshot.data['groups'][reveseIndex]),
+                      userName: snapshot.data['fullName']);
                 },
-              )
-            : Container();
+              );
+            } else {
+              return noGroupWidget();
+            }
+          } else {
+            return noGroupWidget();
+          }
+        } else {
+          return Center(
+            child: CircularProgressIndicator(
+              color: Theme.of(context).primaryColor,
+            ),
+          );
+        }
       },
-      stream: chats,
     );
   }
 
-  sendMessage() {
-    if (messaagesController.text.isNotEmpty) {
-      Map<String, dynamic> chatMessageMap = {
-        "message": messaagesController.text,
-        "sender": widget.userName,
-        "time": DateTime.now().millisecondsSinceEpoch,
-      };
-      DataBaseService().sendMessage(widget.groupId, chatMessageMap);
-      setState(() {
-        messaagesController.clear();
-      });
-    }
+  noGroupWidget() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 25),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          GestureDetector(
+              onTap: () {
+                popUpDialog(context);
+              },
+              child: Icon(
+                Icons.add_circle,
+                color: Colors.grey[700],
+                size: 75,
+              )),
+          const SizedBox(
+            height: 20,
+          ),
+          const Text(
+            "You've not joined any gruops, tap on the add icon to create a group otherwise search from top search button",
+            textAlign: TextAlign.center,
+          )
+        ],
+      ),
+    );
   }
 }
