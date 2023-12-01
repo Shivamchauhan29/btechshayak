@@ -54,6 +54,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           ),
         ),
         GoRoute(
+          path: '/community',
+          name: 'community',
+          builder: (context, state) => const SubjectDetails(),
+        ),
+        GoRoute(
           path: '/videoplayer',
           name: 'videoplayer',
           builder: (context, state) => VideoPlayer(

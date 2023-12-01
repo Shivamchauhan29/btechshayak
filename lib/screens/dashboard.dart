@@ -79,6 +79,12 @@ class _DashBoardState extends ConsumerState<DashBoard> {
               },
             ),
             ListTile(
+              title: const Text('Community'),
+              onTap: () {
+                context.push('/community');
+              },
+            ),
+            ListTile(
               title: const Text('About'),
               onTap: () {
                 context.go('about');
