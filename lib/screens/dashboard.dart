@@ -1,11 +1,14 @@
 // ignore_for_file: avoid_print
 
 import 'package:btechshayak/router/app_checker.dart';
+import 'package:btechshayak/screens/menu.dart';
 import 'package:btechshayak/service/auth_service.dart';
 import 'package:btechshayak/service/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+final studentNameProvider = StateProvider<String>((ref) => '');
 
 class DashBoard extends ConsumerStatefulWidget {
   const DashBoard({super.key});
@@ -27,8 +30,11 @@ class _DashBoardState extends ConsumerState<DashBoard> {
       final userData =
           await ref.read(firestoreProvider).getDocument(path: 'users/$uid');
       final user = userData.data();
+      ref.read(studentNameProvider.notifier).state = user['fullName'];
+
       ref.read(userDataProvider.notifier).state[0] = user['year'];
       ref.read(userDataProvider.notifier).state[1] = user['branch'];
+      ref.read(userDataProvider.notifier).state[2] = user['email'];
       print('Data fetched sucessfully');
       setState(() {});
     }
@@ -51,48 +57,7 @@ class _DashBoardState extends ConsumerState<DashBoard> {
           ),
         ],
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Text(
-                'BTech Shayak',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              title: const Text('Dashboard'),
-              onTap: () {
-                context.go('/');
-              },
-            ),
-            ListTile(
-              title: const Text('Add Subject'),
-              onTap: () {
-                context.push('/addsubject');
-              },
-            ),
-            ListTile(
-              title: const Text('Community'),
-              onTap: () {
-                context.push('/community');
-              },
-            ),
-            ListTile(
-              title: const Text('About'),
-              onTap: () {
-                context.go('about');
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: const Menu(),
       body: path[0] == ''
           ? const Center(child: CircularProgressIndicator())
           : StreamBuilder<dynamic>(
@@ -127,9 +92,13 @@ class _DashBoardState extends ConsumerState<DashBoard> {
                                   ),
                                 ),
                                 onTap: () {
-                                  context.pushNamed('subjectdetails',
-                                      extra: subjects[index].data()
-                                          as Map<String, dynamic>);
+                                  print('subject id: ${subjects[index].id}');
+                                  context.pushNamed(
+                                    'topics',
+                                    queryParameters: {
+                                      'id': subjects[index].id,
+                                    },
+                                  );
                                 },
                               ),
                             ),

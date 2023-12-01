@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+import 'package:btechshayak/screens/menu.dart';
 import 'package:btechshayak/service/firestore_service.dart';
 import 'package:btechshayak/service/titleCase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -78,6 +79,7 @@ class _AddSubjectState extends ConsumerState<AddSubject> {
         appBar: AppBar(
           title: const Text('Add Subject'),
         ),
+        drawer: const Menu(),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Form(

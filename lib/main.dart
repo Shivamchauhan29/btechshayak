@@ -32,6 +32,9 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       title: 'BTech Shayak',
       theme: ThemeData(
+        colorScheme: const ColorScheme.light(
+          primary: Color.fromARGB(255, 34, 87, 36),
+        ),
         useMaterial3: true,
       ),
       routerConfig: goRouter,

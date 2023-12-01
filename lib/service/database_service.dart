@@ -32,11 +32,12 @@ class DataBaseService {
   }
 
   // creating a group
-  Future createGroup(String userName, String id, String groupName) async {
+  Future createGroup(String? userName, String id, String groupName) async {
     DocumentReference groupDocumentReference = await groupCollection.add({
       "groupName": groupName,
       "groupIcon": "",
       "admin": "${id}_$userName",
+      "adminName": userName ?? '',
       "members": [],
       "groupId": "",
       "recentMessage": "",
