@@ -1,10 +1,8 @@
 import 'package:btechshayak/firebase_options.dart';
 import 'package:btechshayak/router/router_config.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_web_plugins/url_strategy.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,9 +11,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  if (kIsWeb) {
-    usePathUrlStrategy();
-  }
+  // if (kIsWeb) {
+  //   usePathUrlStrategy();
+  // }
   runApp(
     const ProviderScope(
       child: MyApp(),

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:btechshayak/router/app_checker.dart';
 import 'package:btechshayak/service/auth_service.dart';
 import 'package:btechshayak/service/firestore_service.dart';
@@ -20,6 +22,7 @@ class _DashBoardState extends ConsumerState<DashBoard> {
 
     void getUser() async {
       final uid = ref.read(authProvider).currentUser?.uid;
+      print('uid: $uid');
       print('get User running');
       final userData =
           await ref.read(firestoreProvider).getDocument(path: 'users/$uid');
