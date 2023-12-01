@@ -12,6 +12,17 @@ class FirestoreService {
     return _firestore.collection(path).snapshots();
   }
 
+  streamSubjects({
+    required String year,
+    required String branch,
+  }) {
+    return _firestore
+        .collection('subjects')
+        .where('year', isEqualTo: year)
+        .where('branch', isEqualTo: branch)
+        .snapshots();
+  }
+
   getDocument({
     required String path,
   }) {
@@ -23,7 +34,6 @@ class FirestoreService {
     required String year,
     required String branch,
   }) {
-    print('path: $path, year: $year, branch: $branch');
     return _firestore
         .collection(path)
         .where('year', isEqualTo: year)
@@ -35,6 +45,7 @@ class FirestoreService {
       {required String path,
       required Map<String, dynamic> model,
       bool merge = true}) async {
+    print('model in set data: $model');
     model['updatedAt'] = FieldValue.serverTimestamp();
     return await _firestore.doc(path).set(model, SetOptions(merge: true));
   }
