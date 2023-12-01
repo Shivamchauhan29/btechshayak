@@ -39,7 +39,9 @@ class Menu extends ConsumerWidget {
                 ),
 
                 // Adjust the spacing between logo and student name
-
+                const SizedBox(
+                  height: 10,
+                ),
                 Text(
                   'Hello, $studentName',
                   style: const TextStyle(
@@ -49,7 +51,7 @@ class Menu extends ConsumerWidget {
                   ),
                 ),
                 Text(
-                  '${titleCase(studentData[0])} Year, ${titleCase(studentData[1])}',
+                  '${titleCase(studentData[0])} Year | ${titleCase(studentData[1])}',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 16,
