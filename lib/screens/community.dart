@@ -1,19 +1,20 @@
+import 'package:btechshayak/screens/menu.dart';
 import 'package:btechshayak/screens/group_tile.dart';
 import 'package:btechshayak/screens/widgets.dart';
-import 'package:btechshayak/service/helper_function.dart';
-import 'package:btechshayak/services/database_service.dart';
+import 'package:btechshayak/service/firestore_service.dart';
+import 'package:btechshayak/service/database_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePage extends ConsumerStatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class Community extends ConsumerStatefulWidget {
+  const Community({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<HomePage> createState() => _HomePageState();
+  ConsumerState<Community> createState() => _CommunityState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> {
+class _CommunityState extends ConsumerState<Community> {
   String userName = "";
   String email = "";
   Stream? groups;
@@ -37,17 +38,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   gettingUserData() async {
-    await HelperFunction.getUserNameFromSF().then((value) {
-      setState(() {
-        userName = value!;
-      });
-    });
-    await HelperFunction.getUserEmailFromSF().then((val) => {
-          setState(() {
-            email = val!;
-          })
-        });
-    //getting the list of snapshot in our stream
+    //  getting the list of snapshot in our stream
     await DataBaseService(uid: FirebaseAuth.instance.currentUser!.uid)
         .getUserGroups()
         .then((snapshot) {
@@ -72,111 +63,111 @@ class _HomePageState extends ConsumerState<HomePage> {
               ))
         ],
         centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
         title: const Text(
           "Groups",
           style: TextStyle(fontSize: 27, fontWeight: FontWeight.bold),
         ),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 50),
-          children: <Widget>[
-            Icon(
-              Icons.account_circle,
-              size: 150,
-              color: Colors.grey[700],
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Text(
-              userName,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            const Divider(
-              height: 2,
-            ),
-            ListTile(
-              onTap: () {},
-              selectedColor: Theme.of(context).primaryColor,
-              selected: true,
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-              leading: const Icon(Icons.group),
-              title: const Text(
-                "Groups",
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-            ListTile(
-              onTap: () {
-                // nextScreenReplace(
-                //     context,
-                //     ProfilePage(
-                //       userName: userName,
-                //       email: email,
-                //     ));
-              },
-              contentPadding:
-                  const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-              leading: const Icon(Icons.person_pin),
-              title: const Text(
-                "Profile",
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-            // ListTile(
-            //   onTap: () async {
-            //     showDialog(
-            //         barrierDismissible: false,
-            //         context: context,
-            //         builder: (context) {
-            //           return AlertDialog(
-            //             title: const Text("Logout"),
-            //             content: const Text("Are you sure you wanna logout☹️"),
-            //             actions: [
-            //               IconButton(
-            //                 onPressed: () {
-            //                   Navigator.pop(context);
-            //                 },
-            //                 icon: const Icon(
-            //                   Icons.cancel,
-            //                   color: Colors.red,
-            //                 ),
-            //               ),
-            //               IconButton(
-            //                 onPressed: () async {
-            //                   await authService.signOut();
-            //                   Navigator.of(context).pushAndRemoveUntil(
-            //                       MaterialPageRoute(
-            //                           builder: (context) => const LoginPage()),
-            //                       (route) => false);
-            //                 },
-            //                 icon: const Icon(
-            //                   Icons.exit_to_app,
-            //                   color: Colors.green,
-            //                 ),
-            //               ),
-            //             ],
-            //           );
-            //         });
-            //   },
-            //   contentPadding:
-            //       const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-            //   leading: const Icon(Icons.exit_to_app),
-            //   title: const Text(
-            //     "Logout",
-            //     style: TextStyle(color: Colors.black),
-            //   ),
-            // ),
-          ],
-        ),
-      ),
+      drawer: const Menu(),
+      // drawer: Drawer(
+      //   child: ListView(
+      //     padding: const EdgeInsets.symmetric(vertical: 50),
+      //     children: <Widget>[
+      //       Icon(
+      //         Icons.account_circle,
+      //         size: 150,
+      //         color: Colors.grey[700],
+      //       ),
+      //       const SizedBox(
+      //         height: 15,
+      //       ),
+      //       Text(
+      //         userName,
+      //         textAlign: TextAlign.center,
+      //         style: const TextStyle(fontWeight: FontWeight.bold),
+      //       ),
+      //       const SizedBox(
+      //         height: 30,
+      //       ),
+      //       const Divider(
+      //         height: 2,
+      //       ),
+      //       ListTile(
+      //         onTap: () {},
+      //         selectedColor: Theme.of(context).primaryColor,
+      //         selected: true,
+      //         contentPadding:
+      //             const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+      //         leading: const Icon(Icons.group),
+      //         title: const Text(
+      //           "Groups",
+      //           style: TextStyle(color: Colors.black),
+      //         ),
+      //       ),
+      //       ListTile(
+      //         onTap: () {
+      //           // nextScreenReplace(
+      //           //     context,
+      //           //     ProfilePage(
+      //           //       userName: userName,
+      //           //       email: email,
+      //           //     ));
+      //         },
+      //         contentPadding:
+      //             const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+      //         leading: const Icon(Icons.person_pin),
+      //         title: const Text(
+      //           "Profile",
+      //           style: TextStyle(color: Colors.black),
+      //         ),
+      //       ),
+      //       // ListTile(
+      //       //   onTap: () async {
+      //       //     showDialog(
+      //       //         barrierDismissible: false,
+      //       //         context: context,
+      //       //         builder: (context) {
+      //       //           return AlertDialog(
+      //       //             title: const Text("Logout"),
+      //       //             content: const Text("Are you sure you wanna logout☹️"),
+      //       //             actions: [
+      //       //               IconButton(
+      //       //                 onPressed: () {
+      //       //                   Navigator.pop(context);
+      //       //                 },
+      //       //                 icon: const Icon(
+      //       //                   Icons.cancel,
+      //       //                   color: Colors.red,
+      //       //                 ),
+      //       //               ),
+      //       //               IconButton(
+      //       //                 onPressed: () async {
+      //       //                   await authService.signOut();
+      //       //                   Navigator.of(context).pushAndRemoveUntil(
+      //       //                       MaterialPageRoute(
+      //       //                           builder: (context) => const LoginPage()),
+      //       //                       (route) => false);
+      //       //                 },
+      //       //                 icon: const Icon(
+      //       //                   Icons.exit_to_app,
+      //       //                   color: Colors.green,
+      //       //                 ),
+      //       //               ),
+      //       //             ],
+      //       //           );
+      //       //         });
+      //       //   },
+      //       //   contentPadding:
+      //       //       const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
+      //       //   leading: const Icon(Icons.exit_to_app),
+      //       //   title: const Text(
+      //       //     "Logout",
+      //       //     style: TextStyle(color: Colors.black),
+      //       //   ),
+      //       // ),
+      //     ],
+      //   ),
+      // ),
       body: groupList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -281,25 +272,23 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   groupList() {
     return StreamBuilder(
-      stream: groups,
+      stream: ref.read(firestoreProvider).getGroup(),
       builder: (context, AsyncSnapshot snapshot) {
         // make some check
         if (snapshot.hasData) {
-          if (snapshot.data['groups'] != null) {
-            if (snapshot.data['groups'].length != 0) {
-              return ListView.builder(
-                itemCount: snapshot.data['groups'].length,
-                itemBuilder: (context, index) {
-                  int reveseIndex = snapshot.data['groups'].length - index - 1;
-                  return GroupTile(
-                      groupName: getName(snapshot.data['groups'][reveseIndex]),
-                      groupId: getId(snapshot.data['groups'][reveseIndex]),
-                      userName: snapshot.data['fullName']);
-                },
-              );
-            } else {
-              return noGroupWidget();
-            }
+          final document = snapshot.requireData;
+          print('data ${document.docs.length}');
+          if (document.docs.length != 0) {
+            return ListView.builder(
+              itemCount: document.docs.length,
+              itemBuilder: (context, index) {
+                final data = document.docs[index].data();
+                return GroupTile(
+                  groupName: data['groupName'],
+                  groupId: data['groupId'],
+                );
+              },
+            );
           } else {
             return noGroupWidget();
           }
@@ -334,7 +323,7 @@ class _HomePageState extends ConsumerState<HomePage> {
             height: 20,
           ),
           const Text(
-            "You've not joined any gruops, tap on the add icon to create a group otherwise search from top search button",
+            "You've not joined any groups, tap on the add icon to create a group otherwise search from top search button",
             textAlign: TextAlign.center,
           )
         ],

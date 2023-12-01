@@ -29,6 +29,10 @@ class FirestoreService {
     return _firestore.doc(path).get();
   }
 
+  getGroup() {
+    return _firestore.collection('groups').snapshots();
+  }
+
   getSubjects({
     required String path,
     required String year,

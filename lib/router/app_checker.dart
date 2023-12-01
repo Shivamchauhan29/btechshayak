@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'not_found_screen.dart';
 
-final userDataProvider = StateProvider<List>((ref) => ['', '']);
+final userDataProvider = StateProvider<List>((ref) => ['', '', '']);
 
 final authStateProvider = StreamProvider<User?>((ref) {
   return ref.read(authProvider).authStateChange;

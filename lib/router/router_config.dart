@@ -1,11 +1,13 @@
 import 'package:btechshayak/router/app_checker.dart';
 import 'package:btechshayak/screens/addsubject.dart';
-import 'package:btechshayak/screens/chatpage.dart';
+import 'package:btechshayak/screens/community.dart';
 import 'package:btechshayak/screens/dashboard.dart';
+import 'package:btechshayak/screens/feedback.dart';
 import 'package:btechshayak/screens/forgetpassword.dart';
 import 'package:btechshayak/screens/login.dart';
 import 'package:btechshayak/screens/signup.dart';
 import 'package:btechshayak/screens/subjectdetails.dart';
+import 'package:btechshayak/screens/topics.dart';
 import 'package:btechshayak/screens/videoplayer.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -57,10 +59,18 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         GoRoute(
           path: '/community',
           name: 'community',
-          builder: (context, state) => ChatPage(
-            userName: state.uri.queryParameters['userName'] ?? '',
-            groupId: state.uri.queryParameters['groupId'] ?? '',
-            groupName: state.uri.queryParameters['groupName'] ?? '',
+          builder: (context, state) => const Community(),
+        ),
+        GoRoute(
+          path: '/feedback',
+          name: 'feedback',
+          builder: (context, state) => const Feedback(),
+        ),
+        GoRoute(
+          path: '/topics',
+          name: 'topics',
+          builder: (context, state) => Topics(
+            id: state.uri.queryParameters['id'],
           ),
         ),
         GoRoute(
