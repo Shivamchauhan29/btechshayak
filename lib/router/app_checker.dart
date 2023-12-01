@@ -1,4 +1,5 @@
 import 'package:btechshayak/screens/dashboard.dart';
+import 'package:btechshayak/screens/login.dart';
 import 'package:btechshayak/screens/signup.dart';
 import 'package:btechshayak/service/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,7 +26,7 @@ class AuthChecker extends ConsumerWidget {
         if (data != null) {
           return const DashBoard();
         }
-        return const SignUp();
+        return const Login();
       },
       loading: () => const Center(
         child: CircularProgressIndicator(),

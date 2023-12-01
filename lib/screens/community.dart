@@ -1,8 +1,10 @@
+import 'package:btechshayak/screens/dashboard.dart';
 import 'package:btechshayak/screens/menu.dart';
 import 'package:btechshayak/screens/group_tile.dart';
 import 'package:btechshayak/screens/widgets.dart';
 import 'package:btechshayak/service/firestore_service.dart';
 import 'package:btechshayak/service/database_service.dart';
+import 'package:btechshayak/service/titleCase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -284,7 +286,7 @@ class _CommunityState extends ConsumerState<Community> {
               itemBuilder: (context, index) {
                 final data = document.docs[index].data();
                 return GroupTile(
-                  groupName: data['groupName'],
+                  groupName: titleCase(data['groupName']),
                   groupId: data['groupId'],
                 );
               },
