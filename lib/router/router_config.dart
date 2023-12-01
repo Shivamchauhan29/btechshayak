@@ -1,5 +1,6 @@
 import 'package:btechshayak/router/app_checker.dart';
 import 'package:btechshayak/screens/addsubject.dart';
+import 'package:btechshayak/screens/community.dart';
 import 'package:btechshayak/screens/dashboard.dart';
 import 'package:btechshayak/screens/forgetpassword.dart';
 import 'package:btechshayak/screens/login.dart';
@@ -56,7 +57,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         GoRoute(
           path: '/community',
           name: 'community',
-          builder: (context, state) => const SubjectDetails(),
+          builder: (context, state) => Community(
+            userName: state.uri.queryParameters['userName'] ?? '',
+            groupId: state.uri.queryParameters['groupId'] ?? '',
+            groupName: state.uri.queryParameters['groupName'] ?? '',
+          ),
         ),
         GoRoute(
           path: '/videoplayer',

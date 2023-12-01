@@ -45,7 +45,6 @@ class FirestoreService {
       {required String path,
       required Map<String, dynamic> model,
       bool merge = true}) async {
-    print('model in set data: $model');
     model['updatedAt'] = FieldValue.serverTimestamp();
     return await _firestore.doc(path).set(model, SetOptions(merge: true));
   }
