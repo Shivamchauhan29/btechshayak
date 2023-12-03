@@ -2,6 +2,7 @@ import 'package:btechshayak/screens/menu.dart';
 import 'package:btechshayak/service/firestore_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class Topics extends ConsumerStatefulWidget {
   final String? id;
@@ -14,7 +15,7 @@ class Topics extends ConsumerStatefulWidget {
 class _TopicsState extends ConsumerState<Topics> {
   @override
   Widget build(BuildContext context) {
-    print('id: ${widget.id}');
+    // print('id: ${widget.id}');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Topics'),
@@ -36,7 +37,7 @@ class _TopicsState extends ConsumerState<Topics> {
               );
             }
             final document = snapshot.requireData.docs;
-            print('document Length: ${document.length}');
+            // print('document Length: ${document.length}');
             if (snapshot.hasData) {
               return Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -51,16 +52,16 @@ class _TopicsState extends ConsumerState<Topics> {
                   itemBuilder: (BuildContext context, int index) {
                     return GestureDetector(
                       onTap: () {
-                        // context.pushNamed('videoplayer', queryParameters: {
-                        //   'url': urls[index],
-                        // });
+                        context.push('/subjectdetails');
                       },
                       child: Card(
                         child: Center(
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              document[index]['name'],
+                              document[index]['name'].toString().toUpperCase(),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
