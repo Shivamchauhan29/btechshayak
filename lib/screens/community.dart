@@ -1,4 +1,5 @@
-import 'package:btechshayak/screens/dashboard.dart';
+// ignore_for_file: avoid_print
+
 import 'package:btechshayak/screens/menu.dart';
 import 'package:btechshayak/screens/group_tile.dart';
 import 'package:btechshayak/screens/widgets.dart';

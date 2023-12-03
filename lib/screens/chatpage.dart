@@ -148,7 +148,7 @@ class _ChatPageState extends State<ChatPage> {
 
   sendMessage() {
     if (messaagesController.text.isNotEmpty) {
-      print('sending message ');
+      // print('sending message ');
       Map<String, dynamic> chatMessageMap = {
         "message": messaagesController.text,
         "sender": widget.userName ?? 'Shivam',

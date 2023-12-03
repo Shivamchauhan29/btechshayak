@@ -1,6 +1,5 @@
 import 'package:btechshayak/screens/dashboard.dart';
 import 'package:btechshayak/screens/login.dart';
-import 'package:btechshayak/screens/signup.dart';
 import 'package:btechshayak/service/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

@@ -44,7 +44,7 @@ class Feedback extends ConsumerWidget {
                 onPressed: () {
                   formKey.currentState!.save();
                   if (formKey.currentState!.validate()) {
-                    print('form validated');
+                    // print('form validated');
                     ref.read(firestoreProvider).addData(
                         path:
                             'users/${ref.read(authProvider).currentUser!.uid}/feedback',
