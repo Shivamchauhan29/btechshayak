@@ -19,17 +19,17 @@ class _PracticeState extends ConsumerState<Practice> {
     String userAnswer = '';
     return Scaffold(
       appBar: AppBar(
-        title: Text('MCQ Page'),
+        title: const Text('Practice'),
       ),
       drawer: const Menu(),
       body: Column(
         children: [
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           StreamBuilder<dynamic>(
             stream: ref.read(firestoreProvider).streamCollection(path: 'mcq'),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               }
 
               final mcqList = snapshot.requireData.docs;
@@ -41,10 +41,10 @@ class _PracticeState extends ConsumerState<Practice> {
                   children: [
                     Text(
                       mcqList[currentQuestionIndex]['question'],
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Column(
                       children: List.generate(
                         mcqList[currentQuestionIndex]['options'].length,
@@ -64,6 +64,8 @@ class _PracticeState extends ConsumerState<Practice> {
                                     ['options'][index]),
                               ),
                               onTap: () {
+                                print('mcq list : ${mcqList.length}');
+
                                 setState(() {
                                   userAnswer = mcqList[currentQuestionIndex]
                                       ['options'][index];
@@ -75,11 +77,11 @@ class _PracticeState extends ConsumerState<Practice> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: FilledButton(
-                        onPressed: () => nextQuestion(),
+                        onPressed: () => nextQuestion(mcqList.length),
                         child: const Text('Next Question'),
                       ),
                     ),
@@ -93,16 +95,15 @@ class _PracticeState extends ConsumerState<Practice> {
     );
   }
 
-  void nextQuestion() {
+  void nextQuestion(int length) {
     setState(() {
-      print('mcq list : ${mcqList.length}');
       print('length: ${currentQuestionIndex < mcqList.length - 1}');
       print('current length: $currentQuestionIndex');
       print('mcq length: ${mcqList.length - 1}');
-      if (currentQuestionIndex < mcqList.length - 1) {
+      if (currentQuestionIndex < length - 1) {
         currentQuestionIndex++;
       } else {
-        currentQuestionIndex++;
+        currentQuestionIndex = 0;
       }
     });
   }
