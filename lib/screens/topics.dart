@@ -59,7 +59,9 @@ class _TopicsState extends ConsumerState<Topics> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              document[index]['name'],
+                              document[index]['name'].toString().toUpperCase(),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),

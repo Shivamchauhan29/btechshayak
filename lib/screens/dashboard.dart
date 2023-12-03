@@ -18,6 +18,68 @@ class DashBoard extends ConsumerStatefulWidget {
 }
 
 class _DashBoardState extends ConsumerState<DashBoard> {
+  sendData() {
+    print('inserting data');
+    try {
+      final questionsData = [
+        {
+          "question": "What is the SI unit of force?",
+          "options": ['Newton', 'Joule', 'Watt', 'Pascal'],
+          "correct_answer": 'Newton'
+        },
+        {
+          "question": "Which of the following is a scalar quantity?",
+          "options": ['Force', 'Velocity', 'Acceleration', 'Displacement'],
+          "correct_answer": 'Displacement'
+        },
+        {
+          "question": "What is the formula for kinetic energy?",
+          "options": ['mv^2', '1/2mv^2', 'mgh', 'Fd'],
+          "correct_answer": '1/2mv^2'
+        },
+        {
+          "question":
+              "In which state of matter do particles have least energy?",
+          "options": ['Solid', 'Liquid', 'Gas', 'Plasma'],
+          "correct_answer": 'Solid'
+        },
+        {
+          "question":
+              "The speed of light is approximately how many meters per second?",
+          "options": [
+            '3 × 10^5 m/s',
+            '3 × 10^7 m/s',
+            '3 × 10^8 m/s',
+            '3 × 10^10 m/s'
+          ],
+          "correct_answer": '3 × 10^8 m/s'
+        },
+        {
+          "question": "What is the law of conservation of energy?",
+          "options": [
+            'Energy can be created but not destroyed',
+            'Total energy of an isolated system remains constant',
+            'Energy can be destroyed but not created',
+            'Energy can neither be created nor destroyed'
+          ],
+          "correct_answer":
+              'Total energy of an isolated system remains constant'
+        }
+      ];
+      for (final questions in questionsData) {
+        Future.delayed(const Duration(milliseconds: 500), () {
+          ref.read(firestoreProvider).addData(path: 'mcq', model: {
+            'question': questions['question'],
+            'options': questions['options'],
+            'correct_answer': questions['correct_answer']
+          });
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final path = ref.watch(userDataProvider);
@@ -49,11 +111,21 @@ class _DashBoardState extends ConsumerState<DashBoard> {
       appBar: AppBar(
         title: const Text('BTech Shayak'),
         actions: [
-          IconButton(
-            onPressed: () {
-              ref.read(authProvider).signOut(context);
-            },
-            icon: const Icon(Icons.logout),
+          Row(
+            children: [
+              // IconButton(
+              //   onPressed: () {
+              //     sendData();
+              //   },
+              //   icon: const Icon(Icons.send),
+              // ),
+              IconButton(
+                onPressed: () {
+                  ref.read(authProvider).signOut(context);
+                },
+                icon: const Icon(Icons.logout),
+              ),
+            ],
           ),
         ],
       ),

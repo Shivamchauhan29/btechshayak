@@ -5,6 +5,7 @@ import 'package:btechshayak/screens/dashboard.dart';
 import 'package:btechshayak/screens/feedback.dart';
 import 'package:btechshayak/screens/forgetpassword.dart';
 import 'package:btechshayak/screens/login.dart';
+import 'package:btechshayak/screens/practice.dart';
 import 'package:btechshayak/screens/signup.dart';
 import 'package:btechshayak/screens/subjectdetails.dart';
 import 'package:btechshayak/screens/topics.dart';
@@ -72,6 +73,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           builder: (context, state) => Topics(
             id: state.uri.queryParameters['id'],
           ),
+        ),
+        GoRoute(
+          path: '/practice',
+          name: 'practice',
+          builder: (context, state) => const Practice(),
         ),
         GoRoute(
           path: '/videoplayer',

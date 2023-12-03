@@ -82,6 +82,13 @@ class Menu extends ConsumerWidget {
             },
           ),
           ListTile(
+            title: const Text('Practice'),
+            leading: const Icon(Icons.quiz),
+            onTap: () {
+              context.go('/practice');
+            },
+          ),
+          ListTile(
             title: const Text('Feedback'),
             leading: const Icon(Icons.feedback),
             onTap: () {
