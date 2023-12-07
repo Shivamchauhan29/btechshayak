@@ -55,14 +55,16 @@ class _SubjectDetailsState extends ConsumerState<SubjectDetails> {
                     },
                     child: Card(
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Text(
-                            urls[index],
-                            style: const TextStyle(fontSize: 10.0),
-                          ),
-                        ),
-                      ),
+                          padding: const EdgeInsets.all(8.0),
+                          // child: Center(
+                          // child: Text(
+                          //   urls[index],
+                          //   style: const TextStyle(fontSize: 10.0),
+                          // ),
+                          // ),
+                          child: Center(
+                            child: Text('Video ${index + 1}'),
+                          )),
                     ),
                   );
                 },
